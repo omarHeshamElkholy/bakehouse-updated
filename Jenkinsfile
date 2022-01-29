@@ -8,7 +8,7 @@ pipeline {
                     sh """
                     docker login --username ${USERNAME} --password ${PASSWORD}
                     docker build -t omarelkholy/jenapp .
-                    docker push omarelkholy/jenapp
+                    docker push omarelkholy/jenapp:latest
                 """
                 }
             }
