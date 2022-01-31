@@ -3,14 +3,13 @@ pipeline {
     stages {
         stage('start') {
             steps {
-                echo "test successfull"
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD' )]) {
-                    sh """
-                    docker login --username ${USERNAME} --password ${PASSWORD}
-                    docker build -t omarelkholy/webappjen:latest .
-                    docker push omarelkholy/webappjen:latest
-                """
-                }
+                configFileProvider ([configFile(fileId: 'kube-config', variable: 'KUBE_CONF')]) {
+        sh """
+          echo $KUBE_CONF > $HOME/.kube/config
+          kubectl config use-context minikube
+          kubectl get po
+        """
+        }
             }
         }
     }
