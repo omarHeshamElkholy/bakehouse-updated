@@ -4,7 +4,9 @@ pipeline {
         stage('start') {
             steps {
                 script {
-                kubernetesDeploy(configs: "dep.yaml", kubeconfigId: "mykubeconfig")
+                withCredentials([file(credentialsId: 'newconfig', variable: 'kubeconfig')]) {
+      sh 'kubectl get pods --kubeconfig=$kubeconfig'
+    }
                 }
             }
         }
