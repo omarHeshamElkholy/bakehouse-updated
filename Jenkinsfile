@@ -13,12 +13,19 @@ pipeline {
             }
             }
           }
-        stage('start') {
+        stage('Use_kube_confing') {
             steps {
-                script {
-          kubernetesDeploy(configs: "dep.yaml", kubeconfigId: "mykubeconfig")
-        }
-                }
-        }
+              script {
+              withCredentials([file(credentialsId: 'newconfig', variable: 'KUBE_CONF')]) {
+              sh """
+                cat $KUBE_CONF > $HOME/.kube/config
+                sed -i 's/afann/lts/g' dep.yaml
+                kubectl apply -f  .
+              """
+              }
+              
+            }
+            }
+          }
     }
 }
