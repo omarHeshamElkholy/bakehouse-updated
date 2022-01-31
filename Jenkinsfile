@@ -5,8 +5,8 @@ pipeline {
             steps {
                 configFileProvider ([configFile(fileId: 'kubeconfig', variable: 'KUBE_CONF')]) {
         sh """
-          kubectl config --kubeconfig=$kubeconfig view
-          kubectl get pods --kubeconfig=$kubeconfig
+          kubectl config --kubeconfig=$KUBE_CONF view
+          kubectl get pods --kubeconfig=$KUBE_CONF
         """
         }
             }
