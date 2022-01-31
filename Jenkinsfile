@@ -3,12 +3,9 @@ pipeline {
     stages {
         stage('start') {
             steps {
-                configFileProvider ([configFile(fileId: 'kubeconfig', variable: 'KUBE_CONF')]) {
-        sh """
-          kubectl config --kubeconfig=$KUBE_CONF view
-          kubectl get pods --kubeconfig=$KUBE_CONF
-        """
-        }
+                script {
+                kubernetesDeploy(configs: "dep.yaml", kubeconfigId: "mykubeconfig")
+                }
             }
         }
     }
