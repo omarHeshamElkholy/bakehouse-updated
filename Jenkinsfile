@@ -4,11 +4,9 @@ pipeline {
         stage('start') {
             steps {
                 script {
-                script {
           kubernetesDeploy(configs: "dep.yaml", kubeconfigId: "mykubeconfig")
         }
                 }
-            }
         }
     }
 }
